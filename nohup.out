@@ -1,0 +1,14 @@
+$ node server.js
+[INFO][2026-10-12T14:27:23.961Z] 启动：注册工作流 10 个，技能 27 个
+infinite-creation 已启动: http://127.0.0.1:6008（开发模式）
+  ComfyUI: http://127.0.0.1:6006
+  LLM:     https://api.deepseek.com/v1 (deepseek-v4-flash-vision-exp)
+[ELIFECYCLE] Command failed.
+$ node server.js
+[ELIFECYCLE] Command failed.
+$ node server.js
+[INFO][2026-10-12T14:31:08.469Z] 启动：注册工作流 10 个，技能 27 个
+infinite-creation 已启动: http://127.0.0.1:6008（开发模式）
+  ComfyUI: http://127.0.0.1:6006
+  LLM:     https://api.deepseek.com/v1 (deepseek-v4-flash-vision-exp)
+[ELIFECYCLE] Command failed.

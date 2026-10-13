@@ -1,72 +1,77 @@
 {
-  "2": {
-    "inputs": {
-      "model_name": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-      "device": "cuda:0",
-      "dtype": "bfloat16",
-      "keep_model_loaded": true,
-      "use_flash_attn": false
-    },
-    "class_type": "Qwen3TTSModelLoader",
-    "_meta": {
-      "title": "Qwen3 TTS Model Loader"
-    }
+ "2": {
+  "inputs": {
+   "model_path": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+   "precision": "bf16",
+   "device": "cuda",
+   "attn_implementation": "sdpa",
+   "auto_download": false,
+   "download_source": "ModelScope"
   },
-  "47": {
-    "inputs": {
-      "filename_prefix": "audio/ComfyUI",
-      "audio": [
-        "77",
-        0
-      ]
-    },
-    "class_type": "SaveAudio",
-    "_meta": {
-      "title": "保存音频"
-    }
-  },
-  "74": {
-    "inputs": {
-      "value": "你好呀，我是沈舒妍，喜欢安静的午后和温暖的光，很高兴认识你。"
-    },
-    "class_type": "PrimitiveStringMultiline",
-    "_meta": {
-      "title": "字符串（多行）"
-    }
-  },
-  "75": {
-    "inputs": {
-      "value": "自然清晰的中性嗓音，无明显性别与年龄特征。"
-    },
-    "class_type": "PrimitiveStringMultiline",
-    "_meta": {
-      "title": "字符串（多行）"
-    }
-  },
-  "77": {
-    "inputs": {
-      "text": [
-        "74",
-        0
-      ],
-      "voice_description": [
-        "75",
-        0
-      ],
-      "language": "Auto",
-      "seed": 798671063927382,
-      "max_new_tokens": 2048,
-      "temperature": 1,
-      "top_p": 0.8,
-      "repetition_penalty": 1.1,
-      "model": [
-        "2",
-        0
-      ]
-    },
-    "class_type": "Qwen3TTSVoiceDesign",
-    "_meta": {
-      "title": "Qwen3 TTS Voice Design"
-    }
+  "class_type": "TDQwen3TTSModelLoader",
+  "_meta": {
+   "title": "Qwen3 TTS Model Loader"
   }
+ },
+ "74": {
+  "inputs": {
+   "value": "你好呀，我是沈舒妍，喜欢安静的午后和温暖的光，很高兴认识你。"
+  },
+  "class_type": "PrimitiveStringMultiline",
+  "_meta": {
+   "title": "字符串（多行）"
+  }
+ },
+ "75": {
+  "inputs": {
+   "value": "自然清晰的中性嗓音，无明显性别与年龄特征。"
+  },
+  "class_type": "PrimitiveStringMultiline",
+  "_meta": {
+   "title": "字符串（多行）"
+  }
+ },
+ "77": {
+  "inputs": {
+   "model": [
+    "2",
+    0
+   ],
+   "text": [
+    "74",
+    0
+   ],
+   "instruct": [
+    "75",
+    0
+   ],
+   "language": "Chinese"
+  },
+  "class_type": "TDQwen3TTSVoiceDesign",
+  "_meta": {
+   "title": "Qwen3 TTS Voice Design"
+  }
+ },
+ "78": {
+  "inputs": {
+   "noise_seed": 0
+  },
+  "class_type": "RandomNoise",
+  "_meta": {
+   "title": "随机噪波"
+  }
+ },
+ "47": {
+  "inputs": {
+   "filename_prefix": "audio/ComfyUI",
+   "audio": [
+    "77",
+    0
+   ]
+  },
+  "class_type": "SaveAudio",
+  "_meta": {
+   "title": "保存音频"
+  }
+ }
 }
