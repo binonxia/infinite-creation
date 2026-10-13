@@ -1,7 +1,7 @@
 {
   "id": "0c61cf05-8843-4ef8-af43-972d078bb4b7",
   "revision": 0,
-  "last_node_id": 37,
+  "last_node_id": 39,
   "last_link_id": 44,
   "nodes": [
     {
@@ -85,15 +85,15 @@
         }
       },
       "widgets_values": [
-        "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
-        "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+        "minimax/minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+        "minimax/minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
         "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
         "minimax_h3_video_vae_int8_convrot.safetensors",
         "minimax_h3_audio_vae_fp32.safetensors"
       ],
       "widgets_values_named": {
-        "fl2va_model": "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
-        "ref2va_model": "minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+        "fl2va_model": "minimax/minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
+        "ref2va_model": "minimax/minimax_h3_hybrid_fl2va_ref2va_b25-49-int8.safetensors",
         "text_encoder": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
         "video_vae": "minimax_h3_video_vae_int8_convrot.safetensors",
         "audio_vae": "minimax_h3_audio_vae_fp32.safetensors"
@@ -1058,6 +1058,100 @@
       "widgets_values_named": {
         "lora_name": "minimax/MysticXXX_MMH3-V1.safetensors",
         "strength_model": 0.5
+      }
+    },
+    {
+      "id": 38,
+      "type": "LoadImage",
+      "pos": [
+        100,
+        1500
+      ],
+      "size": [
+        270,
+        374
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        },
+        "guhaiImageValue": "咖啡厅少女与咖啡.png"
+      },
+      "widgets_values": [
+        "example.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "example.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 39,
+      "type": "LoadImage",
+      "pos": [
+        100,
+        1720
+      ],
+      "size": [
+        270,
+        374
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": null
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.37.0",
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        },
+        "guhaiImageValue": "咖啡厅少女与咖啡.png"
+      },
+      "widgets_values": [
+        "example.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "example.png",
+        "upload": "image"
       }
     }
   ],
