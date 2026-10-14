@@ -219,18 +219,6 @@
       "title": "加载图像"
     }
   },
-  "18": {
-    "inputs": {
-      "model": [
-        "2",
-        0
-      ]
-    },
-    "class_type": "MiniMaxH3MemoryEfficientSageAttentionPatch",
-    "_meta": {
-      "title": "MiniMax H3 Mem Eff Sage Attention Patch"
-    }
-  },
   "24": {
     "inputs": {
       "lora_name": "minimax_h3_turbo_v4_step600_ema_pruned_comfyui.safetensors",
@@ -284,7 +272,7 @@
       "lora_name": "MysticXXX_MMH3-V4.safetensors",
       "strength_model": 0.5,
       "model": [
-        "18",
+        "2",
         0
       ]
     },

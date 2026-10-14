@@ -1,13 +1,13 @@
 {
   "2": {
     "inputs": {
-      "model_name": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-      "device": "cuda:0",
-      "dtype": "bfloat16",
-      "keep_model_loaded": true,
-      "use_flash_attn": false
+      "repo_id": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+      "source": "HuggingFace",
+      "precision": "bf16",
+      "attention": "auto",
+      "local_model_path": ""
     },
-    "class_type": "Qwen3TTSModelLoader",
+    "class_type": "Qwen3Loader",
     "_meta": {
       "title": "Qwen3 TTS Model Loader"
     }
@@ -45,26 +45,22 @@
   },
   "77": {
     "inputs": {
+      "model": [
+        "2",
+        0
+      ],
       "text": [
         "74",
         0
       ],
-      "voice_description": [
+      "instruct": [
         "75",
         0
       ],
       "language": "Auto",
-      "seed": 798671063927382,
-      "max_new_tokens": 2048,
-      "temperature": 1,
-      "top_p": 0.8,
-      "repetition_penalty": 1.1,
-      "model": [
-        "2",
-        0
-      ]
+      "seed": 798671063927382
     },
-    "class_type": "Qwen3TTSVoiceDesign",
+    "class_type": "Qwen3VoiceDesign",
     "_meta": {
       "title": "Qwen3 TTS Voice Design"
     }
