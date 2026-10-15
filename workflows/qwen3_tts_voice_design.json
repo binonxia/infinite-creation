@@ -1,17 +1,4 @@
 {
-  "2": {
-    "inputs": {
-      "model_name": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
-      "device": "cuda:0",
-      "dtype": "bfloat16",
-      "keep_model_loaded": true,
-      "use_flash_attn": false
-    },
-    "class_type": "Qwen3TTSModelLoader",
-    "_meta": {
-      "title": "Qwen3 TTS Model Loader"
-    }
-  },
   "47": {
     "inputs": {
       "filename_prefix": "audio/ComfyUI",
@@ -49,24 +36,26 @@
         "74",
         0
       ],
-      "voice_description": [
+      "model_choice": "1.7B",
+      "device": "auto",
+      "precision": "bf16",
+      "instruct": [
         "75",
         0
       ],
       "language": "Auto",
       "seed": 798671063927382,
       "max_new_tokens": 2048,
-      "temperature": 1,
       "top_p": 0.8,
+      "top_k": 20,
+      "temperature": 1,
       "repetition_penalty": 1.1,
-      "model": [
-        "2",
-        0
-      ]
+      "attention": "sdpa",
+      "unload_model_after_generate": false
     },
-    "class_type": "Qwen3TTSVoiceDesign",
+    "class_type": "FB_Qwen3TTSVoiceDesign",
     "_meta": {
-      "title": "Qwen3 TTS Voice Design"
+      "title": "Qwen3 TTS Voice Design (FB)"
     }
   }
 }
