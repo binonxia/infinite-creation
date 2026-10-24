@@ -22,7 +22,7 @@
       "height": 1344,
       "seconds": 5,
       "advanced": true,
-      "fps": 24,
+      "fps": 12,
       "keyframe_role": "first",
       "ref_image_size": "match",
       "reference_mention_mode": "index",
@@ -72,7 +72,7 @@
   "5": {
     "inputs": {
       "scheduler": "simple",
-      "steps": 8,
+      "steps": 4,
       "denoise": 1,
       "model": [
         "24",
@@ -95,7 +95,7 @@
   },
   "7": {
     "inputs": {
-      "sampler_name": "euler"
+      "sampler_name": "dpmpp_2m"
     },
     "class_type": "KSamplerSelect",
     "_meta": {
