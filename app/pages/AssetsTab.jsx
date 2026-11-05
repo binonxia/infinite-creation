@@ -1,26 +1,33 @@
 'use client';
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { Button, Input, Select, SelectItem, Textarea, Card, CardBody, Tabs, Tab, Chip, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from '@heroui/react';
+import { Button, Input, Select, SelectItem, Textarea, Card, CardBody, Tabs, Tab, Chip, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Spinner } from '@heroui/react';
 import { api } from '../api-client.js';
 import { CATEGORIES, fileUrl, selectKeys, pickKey, statusColor } from './shared';
+import LoadingOverlay from './LoadingOverlay';
 import { useToast } from '../toast';
 
 // ============ 资产库 ============
 export default function AssetsTab({ projectId, jobs = [], onRefresh }) {
   const toast = useToast();
   const [assets, setAssets] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [cat, setCat] = useState('');
-  const [form, setForm] = useState({ category: 'character', name: '', description: '' });
+  const [form, setForm] = useState({ category: 'character', name: '', description: '', parent_id: '' });
+  const [createOpen, setCreateOpen] = useState(false);
   const [edit, setEdit] = useState(null);
   const [voice, setVoice] = useState(null);
   const [uploadTarget, setUploadTarget] = useState(null);
   const [preview, setPreview] = useState(null);
   const [outfits, setOutfits] = useState({});
   const [ages, setAges] = useState({});
+  const [busy, setBusy] = useState(null);
   const fileRef = useRef(null);
   const load = useCallback(() => api.get('/api/projects/' + projectId + '/assets').then(setAssets).catch((e) => toast.error(e.message)), [projectId]);
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => { setLoading(true); load().finally(() => setLoading(false)); }, [load]);
   const shownAssets = cat ? assets.filter((a) => a.category === cat) : assets;
+  const characters = assets.filter((a) => a.category === 'character');
+  // 服装/年龄是挂在角色下的变体：新建时必须选「所属角色」，否则生成时会被静默忽略
+  const isVariantForm = form.category === 'costume' || form.category === 'age';
   const costumesOfChar = (charId) => assets.filter((a) => a.category === 'costume' && a.parent_id === charId);
   const agesOfChar = (charId) => assets.filter((a) => a.category === 'age' && a.parent_id === charId);
   const editingAsset = edit ? assets.find((x) => x.id === edit.id) : null;
@@ -39,15 +46,18 @@ export default function AssetsTab({ projectId, jobs = [], onRefresh }) {
   }
   // 保存：仅把声音限制写入资产，不触发生成
   async function saveVoice() {
+    setBusy('正在保存声音限制…');
     try {
       await api.patch('/api/projects/' + projectId + '/assets/' + voice.id, { voice_desc: voice.voice_desc });
       toast.success('已保存声音限制');
       setVoice(null);
       load();
     } catch (e) { toast.error(e.message); }
+    finally { setBusy(null); }
   }
   // 重新生成：先同步声音限制，再用新限制提交音色设计（朗读内容沿用现有兜底逻辑）
   async function regenVoice() {
+    setBusy('正在提交音色设计…');
     try {
       await api.patch('/api/projects/' + projectId + '/assets/' + voice.id, { voice_desc: voice.voice_desc });
       await api.post('/api/projects/' + projectId + '/assets/' + voice.id + '/design-voice', { voice_description: voice.voice_desc });
@@ -56,10 +66,12 @@ export default function AssetsTab({ projectId, jobs = [], onRefresh }) {
       load();
       onRefresh && onRefresh();
     } catch (e) { toast.error(e.message); }
+    finally { setBusy(null); }
   }
   function pickUpload(a) { setUploadTarget(a.id); if (fileRef.current) fileRef.current.click(); }
   async function doUpload(aid, file) {
     if (!file) return;
+    setBusy('正在上传/替换素材…');
     try {
       const buf = await file.arrayBuffer();
       const res = await fetch('/api/projects/' + projectId + '/assets/' + aid + '/upload', {
@@ -73,14 +85,24 @@ export default function AssetsTab({ projectId, jobs = [], onRefresh }) {
       }
       load();
     } catch (e) { toast.error('上传失败：' + e.message); }
+    finally { setBusy(null); }
   }
 
   async function create() {
-    try { await api.post('/api/projects/' + projectId + '/assets', form); setForm({ ...form, name: '', description: '' }); load(); } catch (e) { toast.error(e.message); }
+    setBusy('正在新建资产…');
+    try {
+      await api.post('/api/projects/' + projectId + '/assets', form);
+      setForm({ ...form, name: '', description: '' });
+      setCreateOpen(false);
+      load();
+    } catch (e) { toast.error(e.message); }
+    finally { setBusy(null); }
   }
   async function del(a) {
     if (!(await toast.confirm('删除资产「' + a.name + '」？此操作不可逆。', { danger: true }))) return;
+    setBusy('正在删除资产…');
     try { await api.del('/api/projects/' + projectId + '/assets/' + a.id); toast.success('已删除「' + a.name + '」'); load(); } catch (e) { toast.error(e.message); }
+    finally { setBusy(null); }
   }
   async function regenImage(a, mode) {
     try {
@@ -113,32 +135,33 @@ export default function AssetsTab({ projectId, jobs = [], onRefresh }) {
     } catch (e) { toast.error(e.message); }
   }
   async function saveEdit() {
+    setBusy('正在保存资产…');
     try { await api.patch('/api/projects/' + projectId + '/assets/' + edit.id, { name: edit.name, description: edit.description, prompt: edit.prompt }); toast.success('已保存'); setEdit(null); load(); } catch (e) { toast.error(e.message); }
+    finally { setBusy(null); }
+  }
+
+  if (loading) {
+    return (
+      <Card>
+        <CardBody className="flex-row items-center justify-center gap-2.5 py-10">
+          <Spinner size="sm" />
+          <span className="muted">素材库数据加载中…</span>
+        </CardBody>
+      </Card>
+    );
   }
 
   return (
     <div className="flex flex-col gap-4">
       <Card>
         <CardBody className="gap-3">
-          <h2 className="text-lg font-semibold m-0">新建资产</h2>
-          <div className="row">
-            <Select size="sm" className="w-32" aria-label="资产分类" selectedKeys={selectKeys(form.category)} onSelectionChange={(k) => setForm({ ...form, category: pickKey(k) })}>
-              {CATEGORIES.map(([k, l]) => <SelectItem key={k}>{l}</SelectItem>)}
-            </Select>
-            <Input size="sm" className="w-40" placeholder="名称" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-            <Input size="sm" className="w-72" placeholder="描述（可选，Agent 会自动补全）" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
-            <Button size="sm" color="primary" isDisabled={!form.name} onPress={create}>添加</Button>
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <Button size="sm" color="primary" onPress={() => setCreateOpen(true)}>＋ 新建资产</Button>
+            <Tabs aria-label="资产分类" size="sm" variant="light" selectedKey={cat || 'all'} onSelectionChange={(k) => setCat(k === 'all' ? '' : String(k))}>
+              <Tab key="all" title="全部" />
+              {CATEGORIES.map(([k, l]) => <Tab key={k} title={l} />)}
+            </Tabs>
           </div>
-          <p className="muted">素材库为全项目共用、跨章节复用；角色/场景/道具图可由 Agent 生成，也可点「生成图」单独补图。</p>
-        </CardBody>
-      </Card>
-
-      <Card>
-        <CardBody className="gap-3">
-          <Tabs aria-label="资产分类" size="sm" variant="light" selectedKey={cat || 'all'} onSelectionChange={(k) => setCat(k === 'all' ? '' : String(k))}>
-            <Tab key="all" title="全部" />
-            {CATEGORIES.map(([k, l]) => <Tab key={k} title={l} />)}
-          </Tabs>
           <div className="grid">
             {shownAssets.map((a) => (
               <div key={a.id}>
@@ -217,6 +240,37 @@ export default function AssetsTab({ projectId, jobs = [], onRefresh }) {
 
       <input ref={fileRef} type="file" style={{ display: 'none' }} onChange={(e) => { const f = e.target.files && e.target.files[0]; if (f && uploadTarget) doUpload(uploadTarget, f); e.target.value = ''; setUploadTarget(null); }} />
 
+      {/* 新建资产弹窗 */}
+      <Modal isOpen={createOpen} backdrop="blur" onClose={() => setCreateOpen(false)}>
+        <ModalContent>
+          {() => (
+            <>
+              <ModalHeader className="pb-2"><h2 className="m-0 text-lg font-semibold">新建资产</h2></ModalHeader>
+              <ModalBody>
+                <div className="flex flex-col gap-4">
+                  <Select size="sm" label="资产分类" selectedKeys={selectKeys(form.category)} onSelectionChange={(k) => setForm({ ...form, category: pickKey(k), parent_id: '' })}>
+                    {CATEGORIES.map(([k, l]) => <SelectItem key={k}>{l}</SelectItem>)}
+                  </Select>
+                  {isVariantForm && (
+                    <Select size="sm" label="所属角色（服装/年龄必须挂在角色下）" selectedKeys={selectKeys(form.parent_id)} onSelectionChange={(k) => setForm({ ...form, parent_id: pickKey(k) })}>
+                      {characters.map((c) => <SelectItem key={c.id}>{c.name}</SelectItem>)}
+                    </Select>
+                  )}
+                  {isVariantForm && !characters.length && <p className="muted" style={{ margin: 0 }}>还没有角色素材：服装/年龄变体必须挂在角色下才能被生成流程引用，请先新建一个「人物」资产。</p>}
+                  <Input size="sm" label="名称" placeholder="名称" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                  <Input size="sm" label="描述（可选，Agent 会自动补全）" placeholder="描述（可选，Agent 会自动补全）" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
+                </div>
+                <p className="muted" style={{ marginTop: 12 }}>素材库为全项目共用、跨章节复用；角色/场景/道具图可由 Agent 生成，也可点「生成图」单独补图。</p>
+              </ModalBody>
+              <ModalFooter>
+                <Button variant="flat" onPress={() => setCreateOpen(false)}>取消</Button>
+                <Button color="primary" isDisabled={!form.name || (isVariantForm && !form.parent_id)} onPress={create}>添加</Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+
       {/* 预览大图 */}
       <Modal isOpen={!!preview} size="3xl" backdrop="blur" onClose={() => setPreview(null)}>
         <ModalContent>
@@ -258,6 +312,7 @@ export default function AssetsTab({ projectId, jobs = [], onRefresh }) {
                     <Textarea value={edit.description || ''} onChange={(e) => setEdit({ ...edit, description: e.target.value })} placeholder="描述（可选，Agent 会自动补全）" minRows={4} />
                     <label style={{ display: 'block', marginTop: 12, marginBottom: 4, fontWeight: 600 }}>提示词</label>
                     <Textarea value={edit.prompt || ''} onChange={(e) => setEdit({ ...edit, prompt: e.target.value })} placeholder="提示词（可选，用于生成/重新生成）" minRows={8} />
+                    <div className="muted" style={{ marginTop: 4, fontSize: 12 }}>{editingAsset && editingAsset.prompt_locked ? '已锁定：LLM 阶段不会覆盖这段提示词（清空保存即解锁）。' : '保存后即锁定：LLM 阶段不会覆盖你写的提示词；清空保存即解锁。'}</div>
                   </div>
                 </div>
               </ModalBody>
@@ -313,6 +368,8 @@ export default function AssetsTab({ projectId, jobs = [], onRefresh }) {
           )}
         </ModalContent>
       </Modal>
+
+      <LoadingOverlay show={!!busy} text={busy} />
     </div>
   );
 }

@@ -1,62 +1,92 @@
+<div align="center">
+
 # Agent Infinite Creation · Turn Your Stories into a Billion Frames
 
-![](images/banner.jpg)
+**Free, open-source, fully automated local-agent video generation ✨**
+Upload a novel or script and generate films of any length locally — unattended.
 
-English | [中文](README.md)
+<a href="https://github.com/SwotAtmk/infinite-creation/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/SwotAtmk/infinite-creation?style=for-the-badge&color=F5B700&label=stars"></a> <a href="README.md"><img alt="简体中文" src="https://img.shields.io/badge/README-%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-555?style=for-the-badge"></a> <a href="https://github.com/SwotAtmk/infinite-creation/blob/main/LICENSE"><img alt="MIT" src="https://img.shields.io/badge/licence-MIT-2EA44F?style=for-the-badge"></a> <a href="https://nodejs.org/"><img alt="Node.js" src="https://img.shields.io/badge/Node.js-%3E%3D22-339933?style=for-the-badge"></a>
 
-## Project Introduction
-
-**Generate videos from novels with one click, unlimited length. Paste a novel/script and let the local ComfyUI-MiniMax H3 + Agent + Skill pipeline automatically produce videos in a fully automated, unlimited-production workflow.**
-
-## Sample Output
-
-- 《Mom's Time》(妈妈的时间)
-
-<div align="center">
-  <video src="https://github.com/user-attachments/assets/3ace95ff-1ec1-46b0-abab-115c76734ee3" width="70%" poster=""> </video>
 </div>
 
-[More samples](docs/run_demo.md)
+<p align="center">
+  <a href="#quick-start"><strong>Quick Start</strong></a>
+  ·
+  <a href="docs/technical_EN.md">Technical Docs</a>
+  ·
+  <a href="#hardware">Hardware</a>
+  ·
+  <a href="#community">Join the Community</a>
+</p>
 
-## Roadmap
+<p align="center">
+  <img src="images/banner.jpg" alt="Agent Infinite Creation" width="100%">
+</p>
 
-- [Planned] Integrate Seedance, Kling, Wan, and the online MiniMax-H3 API for one-click video generation
-- [Planned] Integrate the online RunningHub-ComfyUI workflow for generation, with free overnight MiniMax-H3 runs for members
-- [✅] Consolidated text-to-image and image-to-image workflows using the latest Qwen-Image 2.1
-- [✅] Integrated the Qwen-Image 2.1 text-to-image + image-to-image workflow
-- [✅] Support for submitting reference assets, and agent-based organization of reference assets
-- [✅] Optimized the local MiniMax H3 character voice (fixed electrical noise / unclear speech issues)
-- [✅] Upload novels/scripts to generate videos via a local, fully automated end-to-end Agent workflow
-- [✅] Optimized image asset generation quality
-- [✅] Optimized sound design for character reference audio
-- [✅] Support for character costume management — each character can be designed with multiple outfits
+## Sponsors
 
-## Mission
+<table>
+  <tr>
+    <td width="200" align="center" valign="top">
+      <a href="https://admins.taoxiangyoushu.com/#/register?code=FzH3DEp"><img src="images/txlogo.png" alt="Taoxiang Youshu" width="180"></a>
+    </td>
+    <td valign="top">
+      <strong>Taoxiang Youshu: an all-in-one AI application service platform</strong><br>
+      Brings together trending AI projects, a side-hustle and light-entrepreneurship community, and a business knowledge base — helping individuals pick up AI projects at low cost and find practical side businesses. <a href="https://admins.taoxiangyoushu.com/#/register?code=FzH3DEp">Sign up via the referral link</a> You can then receive a redemption code for a [7-day SVIP membership]:: TsHcxt0t
+    </td>
+  </tr>
+</table>
 
-Provide an end-to-end integration solution for generating ultra-long videos with Agents.
+If you or your team find it valuable, sponsoring is the most direct way to keep it moving forward:
 
-## Architecture
+- Your brand / product featured at the top of this README, seen by every visitor
+- Room for a short product description plus a website / sign-up link
+- Sponsorship amount, duration and benefits are open to discussion
 
-An **automated "novel/script → video" Agent workflow** built on **local ComfyUI** (MiniMax H3 video GGUF edition + Qwen-Image 2.1 text-to-image/image-to-image + Krea2 text-to-image + Qwen3-TTS). The project currently organizes 27 Skills, including MiniMax-H3 prompt optimization, storyboard script generation, and novel-to-script conversion.
+**Contact**: [swotatmk@foxmail.com](mailto:swotatmk@foxmail.com) (please put "Sponsorship" in the subject)
 
-Just paste a novel/script into the project and click "Start" — the Agent fully automates:
+## UI Overview
 
-> Script/Outline → Character Bible + Style Guide (consistency anchors) → Character/Scene/Prop/Voice asset generation → Storyboard script → Per-shot video (MiniMax H3 Ref2VA) → Self-review & retry → ffmpeg merge into final film.
+<table>
+  <tr>
+    <td width="50%"><img src="images/j1.png" alt="Project homepage"></td>
+    <td width="50%"><img src="images/j2.png" alt="Chapter management"></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="images/j3.png" alt="Service configuration"></td>
+    <td width="50%"><img src="images/j4.png" alt="Asset library"></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="images/j5.png" alt="Shot review"></td>
+    <td width="50%"><img src="images/j6.png" alt="Export film"></td>
+  </tr>
+</table>
 
-**No manual intervention required.** It can run unattended for long periods (overnight or all day); when finished, you can review shots segment by segment and regenerate any unsatisfactory clip individually.
+## Samples
 
-## My Machine Specs
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/3ace95ff-1ec1-46b0-abab-115c76734ee3" width="70%" controls></video>
+</div>
 
-```text
-OS: Windows 11 (also runs on Linux/Mac)
-CPU: 12th Gen Intel(R) Core(TM) i5-12400F
-GPU: NVIDIA GeForce RTX 3080 20G
-RAM: 32GB DDR4 3200 MT/s (16GBx2)
-```
+> 《Mom's Time》(妈妈的时间)
 
-**I haven't yet run detailed tests on how much VRAM specific local GPU configurations need. If you have test results, feel free to share them in the group chat. In theory, 8GB+ VRAM should be sufficient.**
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/c415e1bb-ce1a-46fe-b97f-00362899eed3" width="70%" controls></video>
+</div>
 
-**Note**: ffmpeg must be installed first, otherwise the final video merge may be affected. Download: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
+> Created by experience officer 「闪电.」 with infinite-creation
+
+[More samples](docs/run_demo.md) · Rank Shadow ships built-in samples under `public/samples/`: click "Preview samples" in the top-right corner to play the film, inspect its materials and prompt, and try it with one click.
+
+## What is Agent Infinite Creation
+
+An open-source, local workbench for novel adaptations, comic-drama ads, and story-driven explainer videos. It organizes content analysis, asset management, storyboarding, media generation, cost tracking, and export into one reviewable, resumable production pipeline — no actors, voice actors, directors, or editors required.
+
+- **Two creation workspaces**: **Agent Infinite Creation** (novel / script → long video) and **Rank Shadow** (powered by the lemo-opuscar code-film skill: 66 style templates + any materials + a prompt, with the Agent rendering a styled film locally — no ComfyUI required).
+- **One production chain**: once a novel or script enters a project, the Agent produces the character bible, style guide, character / scene / prop / voice assets, storyboard script, per-shot videos, background music, subtitles, and the final ffmpeg merge.
+- **Consistent and controllable**: canonical reference images and scene blocking tables are reused across shots; key stages can be reviewed, single shots can be regenerated, and the change log supports rollback.
+- **Runs locally or in the cloud**: local ComfyUI (12GB+ VRAM) or RunningHub cloud compute; you can also hand the pipeline to a local CLI Agent through the MCP tool bridge.
+- **Deliverables stay editable**: automatic subtitles can be toggled (a subtitle-free copy and SRT are kept), the background-music library supports generate / preview / apply to multiple chapters, and exports can be deleted individually or in batch.
 
 ## Core Capabilities
 
@@ -68,56 +98,43 @@ RAM: 32GB DDR4 3200 MT/s (16GBx2)
 - **Self-iteration (skill factory)**: Upload a new ComfyUI workflow JSON, automatically parse nodes → generate a workflow spec + draft the corresponding skill — the Agent can call it immediately.
 - **Checkpoint/resume**: Task persistence + idempotent skipping; after a process crash/restart it continues without regenerating completed items.
 - **Review/regenerate**: Shot-level preview and regeneration (change seed / rewrite prompt based on feedback).
+- **Background music**: The video stage automatically generates instrumental background music and synthesizes it into the final film; a dedicated "Background Music" library supports manual generation (with caption / lyrics / duration), preview, selection, and applying a track to multiple completed chapters at once.
+- **Automatic subtitles**: A project-level "auto subtitles" toggle burns shot dialogue/narration into the final video on a shot-based timeline (speaker names stripped), while also keeping a subtitle-free copy and an SRT file. The "Exports" page lets you download the subtitled video, the subtitle-free video, or the SRT, and supports single or batch deletion.
 - **Staged execution**: Generation is split into four independent stages — text creation / asset image generation / voice design / storyboard video — any subset can be toggled to run or resume. Batches are split automatically by VRAM constraints, and unneeded stages don't spin up their processes.
-- **VRAM maintenance**: The settings page lets you configure "release ComfyUI VRAM every N generations" (default 3, 0 = off), covering text-to-image / image-to-image / costume change / voice / video rendering — AMD Dynamic VRAM's memory accumulation isn't only triggered by video. After a release, the next generation reloads models (about 1–3 minutes extra). When Dynamic VRAM is disabled, the UI shows a prompt recommending it be turned on.
+- **VRAM maintenance**: The settings page lets you configure "release ComfyUI VRAM every N generations" (default 3, 0 = off), covering text-to-image / image-to-image / costume change / voice / video rendering — AMD Dynamic VRAM's memory accumulation isn't only triggered by video. When Dynamic VRAM is disabled, the UI shows a prompt recommending it be turned on.
 - **Online preview**: Final films / shot videos are streamed via backend Range requests — drag the progress bar freely and jump instantly.
+- **External Agent runtime**: Besides the built-in openclaude, switch on the settings page to a locally installed CLI agent (Claude Code / Codex CLI / Gemini CLI / Qwen Code / Cursor Agent / Qoder CLI / Grok Build / Hermes / custom command), exposing domain tools to it via a local MCP stdio service so it fully takes over the pipeline; model accounts and sign-in state stay with each CLI.
+- **Rank Shadow (code film)**: Integrates the lemo-opuscar skill with 66 style templates (category filtering + custom style). Upload any images / audio / video / documents plus a prompt, and the Agent writes the render code locally and muxes the result with ffmpeg. Built-in samples support preview and one-click trial; generation records support query, edit, regenerate, stop and batch delete, and never occupy the ComfyUI render queue.
 
-# Screenshots
+## From Input to Film
 
-1. Project Home
-   ![Project Home](images/j1.png)
-2. Chapter Management
-   ![Chapter Management](images/j2.png)
-3. Service Configuration
-   ![Service Configuration](images/j3.png)
-4. Skill Management
-   ![Skill Management](images/j4.png)
-5. Asset Management
-   ![Asset Management](images/j5.png)
-6. Run Logs
-   ![Run Logs](images/j6.png)
-7. Shot Review
-   ![Shot Review](images/j7.png)
-8. Export Final Film
-   ![Export Final Film](images/j8.png)
-
-## Tech Stack
-
-- Backend: Node.js (Next.js custom server) + `node:sqlite` + ComfyUI REST/WebSocket + ffmpeg, zero native-compilation dependencies.
-- Agent: Self-developed ReAct loop (native function-calling with JSON action-block fallback), tool registry + skill engine + skill factory.
-- Frontend: Next.js 15 + React 18 (App Router).
-- Structure: single package — `app/` (pages + 30+ API endpoints) · `lib/` (reusable core/agent/shared logic) · `server.js` (custom server: WebSocket progress push + `/files` static hosting with Range-based video streaming).
-
-## Directory Structure
-
-```
-infinite-creation/
-├── app/                 # Next.js App Router (pages + API endpoints)
-├── lib/                 # Reusable logic: core (ComfyUI/LLM/DB/ffmpeg) · agent (runtime + skills) · shared (constants)
-├── server.js            # Custom server (WebSocket progress push + /files static hosting, Range streaming)
-├── workflows/           # ComfyUI workflow templates (MiniMax H3 video / Qwen-Image 2.1 image & text / Krea2 / Qwen3-TTS, incl. GGUF quantized editions)
-├── start-infinite-creation.bat    # Windows one-click background startup (auto-install deps + wait until ready)
-├── stop-infinite-creation.bat     # Windows service stop
-├── skills/              # Skill library (9 official + novel-to-video + custom)
-├── scripts/install-skills.mjs   # Pull MiniMax-H3 official skills
-├── tests/unit.test.mjs          # Unit tests
-├── vendor/openclaude/           # Agent kernel source (dist/ build artifacts not committed; requires local build)
-└── data/                # Runtime (gitignored): SQLite + projects/<id>/…
+```mermaid
+flowchart LR
+    A["Novel / Script"] --> B["Character Bible + Style Guide"]
+    B --> C["Character / Scene / Prop / Voice Assets"]
+    C --> D["Storyboard Script"]
+    D --> E["Per-shot Video (MiniMax H3)"]
+    E --> F["Background Music + Subtitles"]
+    F --> G["ffmpeg Merge"]
+    C --> H["Rank Shadow (Code Film)"]
+    H --> G
 ```
 
-> **About node_modules**: Dependencies are not committed. pnpm generates a single `node_modules` at the project root (real dependencies live under `node_modules/.pnpm/`). **Just run `pnpm install` once at the project root.**
+Every stage can be automated by the Agent or reviewed, adjusted and regenerated in the workbench. See the [Technical Documentation](docs/technical_EN.md) for details.
 
 ## Quick Start
+
+**Up and running in one command**
+
+```bash
+git clone https://github.com/SwotAtmk/infinite-creation.git
+cd infinite-creation
+pnpm install              # installs dependencies (builds the Agent kernel automatically)
+pnpm run install:skills   # optional: pull MiniMax-H3 official skills
+pnpm run dev              # starts Studio by default; open http://127.0.0.1:4710
+```
+
+> Prerequisites: Node.js ≥ 22, pnpm ≥ 9, Bun, ffmpeg. Production mode, running Studio and the classic UI separately, Windows one-click scripts, database and ComfyUI setup are all covered in the [Technical Documentation](docs/technical_EN.md).
 
 **Easiest way to start**
 
@@ -128,122 +145,134 @@ Help me clone this project https://github.com/SwotAtmk/infinite-creation.git
 locally (fill in the target install directory here), and run it locally.
 ```
 
-- **国内使用：**
+- **For users in China:**
 ```text
-帮我克隆这个项目https://gitcode.com/SwotAtmk/infinite-creation.git到本地（这里填写要安装的项目目录），
-并且在本地部署运行这个项目
+Help me clone this project https://gitcode.com/SwotAtmk/infinite-creation.git 
+locally (fill in the target install directory here), and run it locally.
 ```
 
-**Prerequisites**
+- **Agent auto startup**
 
-- Node.js ≥ 22 (backend uses built-in `node:sqlite`; Agent kernel requires `>= 22`)
-- pnpm ≥ 9 (`npm i -g pnpm`)
-- Bun (`pnpm install` uses it to build the Agent kernel once; install at <https://bun.sh>)
-
-**Steps**
-
-```bash
-# Clone the project locally
-git clone https://github.com/SwotAtmk/infinite-creation.git
-cd infinite-creation
-
-# 1. Install all dependencies (run once at root; builds the Agent kernel automatically)
-pnpm install
-
-# 2. Pull MiniMax-H3 official skills (optional; repo already contains an offline snapshot)
-pnpm run install:skills
-
-# 3. Dev mode: one command to start (single port 4600, frontend + API + WS + static files all hosted)
-pnpm run dev
-# Open http://127.0.0.1:4600 in your browser
-
-# 4. Production mode: single port 4600, frontend build artifacts hosted by the backend
-pnpm run build && pnpm start
-# Open http://127.0.0.1:4600 in your browser
+```text
+Please refer to https://gitcode.com/SwotAtmk/infinite-creation/releases/download/v1.0.0/install-skill.md for installation instructions,
+Install the infinite-creation skill from GitHub (overseas) or GitCode (domestic), then start the project according to the skill description.
 ```
 
-> Windows users can also double-click `start-infinite-creation.bat` in the root directory for one-click background startup (auto-detects the port / installs dependencies / waits until ready, and reports ComfyUI status). Stop with `stop-infinite-creation.bat`.
+## Hardware
 
-> The Agent kernel `vendor/openclaude/dist/` is a build artifact and not committed; `pnpm install` builds it automatically once (idempotent — skips if present). You only need to manually rerun `pnpm build:agent` after modifying `vendor/openclaude/src/` source. See [docs/agent-architecture.md](docs/agent-architecture.md) for build details.
+My machine:
 
-## First-Time Configuration
+```text
+OS: Windows 11 (also runs on Linux/Mac)
+CPU: 12th Gen Intel(R) Core(TM) i5-12400F
+GPU: NVIDIA GeForce RTX 3080 20G
+RAM: 32GB DDR4 3200 MT/s (16GBx2)
+```
 
-Click ⚙ in the top-right corner:
+Minimum requirements for local operation:
 
-1. ComfyUI service URL: default `http://127.0.0.1:8188`, click "Test Connection" to confirm.
-2. LLM (the Agent's brain, OpenAI-compatible): fill in Base URL (must end with `/v1`), model, and API Key. Default model is `deepseek-v4-flash-vision-exp`.
-3. Generation maintenance (optional): set "release ComfyUI VRAM every N generations" (default on = 3, 0 = off), counted across **all ComfyUI generation tasks** (text-to-image / image-to-image / costume change / voice / video all count — on AMD GPUs with Dynamic VRAM, any consecutive generation gradually slows down). After a release, the next generation reloads models (about 1–3 minutes extra). When ComfyUI is detected as having Dynamic VRAM disabled, the UI shows a prompt recommending it be turned on.
+```text
+Graphics card: The minimum requirement for the graphics card is 12GB of VRAM [those with development capabilities can adapt to a version that can run with 8GB]
+CPU: No specific processor required
+Memory: Recommended 32GB or above
+Hard disk: At least 150G of space is required
+```
 
-Configuration is saved to `config.json` at the root (not committed). Generation parameters (timeout minutes, concurrency, release frequency) can be edited directly in the `generation` section of `config.json`.
+**I haven't conducted detailed tests on the specific local graphics card configuration and required video memory size. If your computer can run this project normally, please join the group chat to share your minimum viable configuration**
 
-### Required ComfyUI Workflows and Models
+**Note**: ffmpeg must be installed first, otherwise the final video merge may be affected. Download: [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
 
-Before running this project for the first time, you must install ComfyUI. If you haven't, download and install it from the official ComfyUI site, or use the one-click install package I provide via the cloud-disk link (it includes all models and workflows used). My one-click package currently supports Windows only; Mac users are advised to install manually from the official site, download the models, and run through all the sample workflows.
+## ComfyUI Setup
 
+### Required Workflows and Models
+
+Before running the project for the first time, it is necessary to install the ComfyUI tool. If it is not installed, you can download and install it from the Comfyui official website, or use the one click installation package provided by me (the one click installation package contains all the models and workflows used in the workflow). Currently, the one click installation package only supports Windows systems. It is recommended to manually install it from the official website for Mac systems, download the model, and run all the example workflows.
+
+**Third-party service disclaimer: The ComfyUI one-click integration package was developed by a third-party expert, and may involve some fee-related issues related to third-party websites. Its creation is not easy, so please support it rationally. Please check carefully to avoid being deceived, and do not trust any stranger who adds you on social media to sell you information.**
 ```txt
 I've shared "无限创作-ComfyUI一键安装部署" (Infinite Creation - ComfyUI one-click install) with you on Quark cloud disk. Click the link or copy the whole content and open the "Quark APP" to get it.
 /~c2d03b8qfM~:/
 Link: https://pan.quark.cn/s/ed2afd0f6a4f?pwd=GVZe
 Extraction code: GVZe
 ```
+It is recommended that those who have ComfyUI related technology can install and complete the relevant plugins and models themselves, and run the relevant workflows in the comfyui_original_workflows folder. Note: distinguish the workflows of NVIDIA graphics cards and AMD graphics cards
 
 Before using this Agent project tool, it's recommended to manually run all workflows in ComfyUI first (i.e., run through every workflow in the `comfyui_original_workflows/` directory), after which the Agent project tool can perform fully automated generation.
 
 > Voice: MiniMax H3 synthesizes dialogue itself based on "reference voice samples (flac, etc., placed in assets/voice/) + prompt dialogue"; no separate TTS needed.
 
-## Usage Flow
+### Cloud Compute - RunningHub Native ComfyUI API
 
-1. New project → paste the novel text (or a one-line idea) + style.
-2. On the "Generate Content" page, check the stages to run (text creation / asset image generation / voice design / storyboard video; you can check only a subset for resuming), click ▶ Start → watch progress in the console in real time (no intermediate actions needed).
-3. After the video stage finishes, the film is merged automatically; go to Shot Review to preview segment by segment, and click ↻ to regenerate any unsatisfactory shot (optional feedback).
-4. Go to the "Final Film" page to preview online (draggable progress bar) and ⬇ download.
+- If the local computer configuration is relatively low and cannot run the program, you can choose to use cloud computing power for a free trial
 
-## Self-Iteration: New Workflow → New Skill
+**Claim your free trial of RunningHub's cloud computing power**
+```text
+Open the link: https://www.runninghub.cn?inviteCode=6to0etcb
+Register now and you can receive 500 RH coins, which can be used to generate plenty of images and videos for free!
+```
+- Open the browser and navigate to [https://www.runninghub.cn/call-api/bill-task?tab=keys&type=consumer&inviteCode=6to0etcb](https://www.runninghub.cn/call-api/bill-task?tab=keys&type=consumer&inviteCode=6to0etcb) to obtain the RunningHub Api-Key
+![r2.png](images/r2.png)
 
-On the Workflows page, paste a new ComfyUI workflow JSON → "Analyze nodes/roles" → "Register workflow + generate skill". The system: parses nodes (loaders / prompts / sizes / seeds / saves…) → derives the workflow spec (roles/media/outputs) → registers it to `workflows/` + DB → calls the LLM to draft a `SKILL.md` and installs it as a routable skill → the Agent can then call it as a new "work mode".
+- Configure RunningHub Api-Key
+![r1.png](images/r1.png)
 
-## API Overview
+- My RunningHub workflow homepage: [https://www.runninghub.cn/user-center/2013421139631808514/webapp?inviteCode=6to0etcb](https://www.runninghub.cn/user-center/2013421139631808514/webapp?inviteCode=6to0etcb)
 
-| Method   | Path                                      | Description                          |
-| -------- | ----------------------------------------- | ------------------------------------ |
-| GET/POST | /api/projects                             | List projects / Create               |
-| POST     | /api/projects/:id/run                     | Start fully automated generation     |
-| POST     | /api/projects/:id/stop                    | Stop a running task                  |
-| GET      | /api/projects/:id/assets?category=        | Assets (by category)                 |
-| GET      | /api/projects/:id/shots                   | Shots                                |
-| POST     | /api/projects/:id/shots/:sid/regenerate   | Regenerate a single shot             |
-| POST     | /api/projects/:id/export                  | Merge & export the final film        |
-| GET      | /api/projects/:id/stages                  | Pending counts + stage definitions   |
-| POST     | /api/projects/:id/stages                  | Run by stages (check llm/image/tts/video to start a batch, incl. preflight) |
-| GET      | /api/skills                               | Skill list                           |
-| GET/POST | /api/workflows                            | Workflow list / register (self-iteration) |
-| GET/PUT  | /api/config                               | Configuration                        |
-| WS       | /ws                                       | Task progress push                   |
+## Documentation
 
-## Tests
+| Page | Contents |
+|---|---|
+| [Technical Documentation](docs/technical_EN.md) | Tech stack, directory structure, setup and startup, first-time configuration, usage flow, API overview, tests and limitations |
+| [Agent architecture](docs/agent-architecture.md) | Agent kernel, external CLI runtime and the MCP tool bridge |
+| [Writer API design](docs/writer-api-plan.md) | Design trade-offs and round-by-round log for letting AI coding tools write content |
+| [Sample outputs](docs/run_demo.md) | Generation results and built-in samples |
+| [SKILL.md](SKILL.md) | The full contract for the agent |
+| [中文 README](README.md) | Chinese documentation |
 
-pnpm test   # node --test tests/unit.test.mjs
+## Roadmap
 
-## Notes & Limitations
+- [Ongoing] Addressing BUGs in the project
+- [Planned] Adaptation for home-grade GPUs with low VRAM — the blogger's testing equipment is limited. More users are needed to help with testing and provide feedback to the repository's Issues. Please contribute your insights! 🙏
+- [Planned] Address and optimize issues such as tool invocation security and context compression in internal agents
+- [Planned] Plugin system development, supporting plugin upload, plugin invocation, plugin framework
+- [Planned] Automated Pipeline Supports Custom Prompt Assembly Plugins
+- [Planned] Incorporate more advanced Skills to enhance the visual aesthetic of Agent skills
+- [Planned] For the beautification work of the tool Web page, a highly aesthetic AI designer is needed
+- [Planned] Package and build Docker deployment, desktop app
+- [Planned] Integrate video super-resolution into the workflow to enhance the clarity of generated videos
+- [Planned] Integrate Seedance, Kling, Wan, and the online MiniMax-H3 API for one-click video generation
+- [✅] Support the generation of multiple videos from a single storyboard configuration, based on a model that selects the best cards from the storyboard
+- [✅] Internet search skill support, e.g. asset generation can search for reference images (such as specific Huawei phone or Apple MacBook models) and use them as references to generate new assets
+- [✅] Agent automatically selects text-to-video, image-to-video, first/last-frame, or digital-human mode based on the actual use case (digital-human mode is currently reservation-only, not yet wired end-to-end)
+- [✅] Support uploading txt text files, automatically parsing and creating multiple chapters and sharing reference assets
+- [✅] New "Scene Blocking Consistency" Skill: builds a character/prop staging map per scene (spatial anchors + character positions + 180-degree axis) to eliminate left-right drift and axis-crossing issues across shots
+- [✅] External Agent runtime: support local CLI agents (Claude Code, Codex CLI, Gemini CLI, Qwen Code, Cursor Agent, Qoder CLI, Grok Build, Hermes, custom command) to take over the "novel→video" pipeline via a local MCP tool bridge, while keeping the built-in openclaude as the default runtime
+- [✅] Automatic video subtitles: a project-level toggle burns shot dialogue/narration into the final video on a shot-based timeline (speaker names stripped), with a subtitle-free copy and a downloadable SRT file
+- [✅] Support background music management: integrate MiniMax Music3 for local/cloud automatic background-music generation and synthesis into videos, with a "Background Music" library (manual generation / preview / select / apply to chapters)
+- [✅] Add Agent security approval policies to prevent Agent from performing unauthorized operations, deleting projects, or executing dangerous commands
+- [✅] Integrate the online RunningHub-ComfyUI workflow for generation, with free overnight MiniMax-H3 runs for members
+- [✅] Package the project as a Skill for one-click Agent invocation
+- [✅] Consolidated text-to-image and image-to-image workflows using the latest Qwen-Image 2.1
+- [✅] Integrated the Qwen-Image 2.1 text-to-image + image-to-image workflow
+- [✅] Support for submitting reference assets, and agent-based organization of reference assets
+- [✅] Optimized the local MiniMax H3 character voice (fixed electrical noise / unclear speech issues)
+- [✅] Upload novels/scripts to generate videos via a local, fully automated end-to-end Agent workflow
+- [✅] Optimized image asset generation quality
+- [✅] Optimized sound design for character reference audio
+- [✅] New "Rank Shadow" code-film mode: integrates lemo-opuscar's 66 style templates, with preset/custom styles, upload of any materials, sample preview and one-click trial, plus generation records (query / edit / regenerate / stop / delete / batch delete)
+- [✅] Support for character costume management — each character can be designed with multiple outfits
 
-- Videos are generated shot-by-shot serially (ComfyUI has limited single-GPU concurrency); a single shot takes minutes-level; total film time depends on the number of shots and duration.
-- H3 reference limits: images ≤9, audio/video ≤3 (exceeding them errors out automatically).
-- Final films are uniformly transcoded to H.264 + AAC (24fps) to ensure playability.
-- Tasks are background-persistent; you can resume after refreshing the page / restarting the service (idempotent skip of completed items).
-- Default single-video timeout is 90 minutes (normal single shots are far below this — fallback only); adjustable via `generation.videoTimeoutMinutes` in `config.json`.
-- Every N generation tasks, ComfyUI `/free` is called once to release VRAM (`generation.freeAfterEvery`, default 3, 0 = off; also compatible with the old key `videoFreeAfterEvery`), covering all rendering and countering the speed degradation of AMD Dynamic VRAM after consecutive generations; cleanup takes effect after the next task completes, and failure doesn't affect output.
-- LLM runtime watchdog: when model output is truncated (`[Response truncated …]`) or the upstream stalls, tasks no longer hang indefinitely — 3 consecutive pure-truncation no-progress events, or 20 minutes without a message (tool-rendering window excluded), auto-abort and mark as failed; slow local models can loosen the no-message threshold via `generation.agentStallMinutes` (default 20).
+## Community
 
-# Check Out My Tool Site
-
-I've collected many useful little tools there — interested in learning more?
-
-- Get the latest project news and practical tools
-- [淘项Hub: https://tx3247.t.taoxiangyoushu.com/?f=0zv5vo2](https://tx3247.t.taoxiangyoushu.com/?f=0zv5vo2)
-
-# Join the Group Chat to Report Issues or Suggest Improvements
+Scan the QR code to join the group chat and share feedback or suggestions:
 
 ![jiaqun](images/jiaqun.png)
+
+For reproducible bugs or clear feature requests, feel free to open a [GitHub Issue](https://github.com/SwotAtmk/infinite-creation/issues).
+
+## Contributing
+
+Code, docs, skills and bug reproductions are all welcome. Development, testing and API contracts are covered in the [Technical Documentation](docs/technical_EN.md).
 
 ## Reference Projects & Special Thanks
 
@@ -252,17 +281,30 @@ I've collected many useful little tools there — interested in learning more?
 - [OpenClaude: https://github.com/Gitlawb/openclaude](https://github.com/Gitlawb/openclaude) — the Agent kernel and workflow management
 - [Comfy-Org/ComfyUI](https://github.com/Comfy-Org/ComfyUI) — the ComfyUI workflows and model architecture
 - [deepseek](https://www.deepseek.com/) — thanks to DeepSeek for the deepseek-v4-flash-vision-exp model
+- Reference Open-Source Skills: [short-drama](https://github.com/0xsline/short-drama)、[manju-laoli-skill](https://github.com/lixiaoxiao9888-create/manju-laoli-skill)
+- [lemomo-ai/lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar) — Provided a core framework for Infinite·Rank Shadow
 
 Thank you to these projects for enabling rapid iteration and improvement.
 
 ## Author's Note
 
-This project was independently completed by an individual developer. Feedback, bug reports, and promotion are all welcome — let's build a better product for more people to discover. The project has just been open-sourced, so there may be many areas that need adjustment and optimization. Issues and further optimizations are welcome. Thank you to everyone who contributes to this project.
+Welcome everyone to provide feedback, find and report bugs, and help spread the word. Let's create a better product for more people to discover. The project has just been open-sourced, and there may be many areas that need adjustment and optimization. We welcome everyone to submit issues or make further optimizations based on my work. Thank you to everyone who contributes to this project.
 
 ## Acknowledgements
 
+- Thank you to the developer [taoxiangyoushu](https://github.com/taoxiangyoushu) for their contribution to this project. They have integrated the workflow mode of Tusense video + first and last frames and fixed some bugs
 - Thanks to developer [happymy](https://github.com/happymy) for providing the AMD + GGUF adaptation solution and fixing some bugs in the project.
-- Thank you to the developer [binonxia]（ https://github.com/binonxia ）Discovered and fixed bugs in the project
+- We would like to express our gratitude to the following developers for their contributions to the project: [thrasher824](https://github.com/thrasher824)、[remiliakui](https://github.com/remiliakui)、[ghshhf](https://github.com/ghshhf), [binonxia](https://github.com/binonxia), [anupamme](https://github.com/anupamme)
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=swotatmk%2Finfinite-creation&type=date&legend=bottom-right">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=swotatmk/infinite-creation&type=date&theme=dark&legend=bottom-right" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=swotatmk/infinite-creation&type=date&theme=light&legend=bottom-right" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=swotatmk/infinite-creation&type=date&legend=bottom-right" />
+ </picture>
+</a>
 
 ## License
 

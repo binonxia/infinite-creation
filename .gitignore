@@ -1,12 +1,23 @@
 node_modules/
 data/
 config.json
+.env
+!.env.docker.example
 # openclaude 二开：源码保留在 vendor/openclaude，构建产物不入库
 vendor/openclaude/node_modules/
 vendor/openclaude/dist/
 .next/
+.next-*/
+# Studio 前端的构建产物
+studio/dist/
 .DS_Store
 *.log
 .pnpm-store/
 .idea/
 .trae/
+__pycache__/
+*.pyc
+# lemo-opuscar 技能库的 Python 虚拟环境（运行 setup.sh deps 生成，体积大，不入库）
+.venv/
+# 测试素材（本地使用，不入库）
+docs/test/
