@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ArrowLeft,
   Bot,
+  Captions,
   CheckCircle2,
   Cloud,
   Cpu,
@@ -14,6 +15,7 @@ import {
   Sparkles,
   Users,
   Wand2,
+  Workflow,
   XCircle,
 } from 'lucide-react';
 import { api } from '../lib/api.js';
@@ -24,11 +26,15 @@ import {
   comfyBaseUrl,
   hardwareMode,
   isPresetWorkflows,
+  VIDEO_RESOLUTION_CUSTOM,
 } from '../lib/shared.js';
 import { COMFY_PROVIDERS } from '@shared';
 import { Badge, Button, EmptyState, Field, Input, Segmented, Select, Spinner, Switch } from '../components/ui.jsx';
+import { RESOLUTION_SELECT_ITEMS, RATIO_SELECT_ITEMS } from '../components/visuals.jsx';
 import PageHeader from '../components/PageHeader.jsx';
 import SkillsPanel from '../components/SkillsPanel.jsx';
+import SkillPipelinePanel from '../components/SkillPipelinePanel.jsx';
+import SubtitlePanel from '../components/SubtitlePanel.jsx';
 import { useToast } from '../components/toast.jsx';
 
 const PROVIDER_OPTIONS = COMFY_PROVIDERS.map((p) => ({ value: p.id, label: p.label }));
@@ -44,9 +50,11 @@ const CATEGORIES = [
   { id: 'general', label: '通用配置', desc: '分镜数量 · 任务调度', icon: SlidersHorizontal },
   { id: 'comfyui', label: 'ComfyUI 服务', desc: '执行端 · 并发队列', icon: Server },
   { id: 'llm', label: 'LLM 模型', desc: 'Agent 大脑 · 提示词改写', icon: Sparkles },
+  { id: 'subtitle', label: '字幕与语音识别', desc: 'Whisper 模型 · 本地环境', icon: Captions },
   { id: 'agent', label: 'Agent 运行时', desc: '内置 / 外部 CLI · MCP 桥', icon: Bot },
   { id: 'hardware', label: '硬件适配', desc: '工作流 · 显存策略', icon: Cpu },
   { id: 'skills', label: '技能库', desc: '全局技能包管理', icon: Wand2 },
+  { id: 'pipeline', label: '流水线编排', desc: '技能节点 · 导入导出', icon: Workflow, beta: true },
 ];
 
 export default function SettingsPage({ onBack, publicMode = false }) {
@@ -122,6 +130,11 @@ export default function SettingsPage({ onBack, publicMode = false }) {
     if (!Number.isFinite(n)) return fallback;
     return Math.max(min, Math.min(max, n));
   };
+
+  // —— 新建项目默认配置（创建项目表单的初值）——
+  const defaults = cfg?.projectDefaults || {};
+  const setDefaults = (patch) =>
+    setCfg((c) => ({ ...c, projectDefaults: { ...(c.projectDefaults || {}), ...patch } }));
 
   async function save() {
     setSaving(true);
@@ -358,7 +371,14 @@ export default function SettingsPage({ onBack, publicMode = false }) {
                 >
                   <Icon size={15} className={on ? 'shrink-0 text-[var(--accent)]' : 'shrink-0 text-[var(--fg-3)]'} />
                   <span className="flex min-w-0 flex-col items-start gap-0.5">
-                    <span className="whitespace-nowrap">{c.label}</span>
+                    <span className="flex items-center gap-1.5 whitespace-nowrap">
+                      {c.label}
+                      {c.beta ? (
+                        <span className="shrink-0 rounded-full border border-[color-mix(in_srgb,var(--accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--accent)_14%,transparent)] px-1.5 py-px text-[8.5px] font-semibold uppercase tracking-wide text-[var(--accent)]">
+                          beta
+                        </span>
+                      ) : null}
+                    </span>
                     <span className="hidden text-[10.5px] leading-tight text-[var(--fg-4)] lg:block">{c.desc}</span>
                   </span>
                 </button>
@@ -429,6 +449,69 @@ export default function SettingsPage({ onBack, publicMode = false }) {
                 <p className="m-0 text-[11px] leading-relaxed text-[var(--fg-4)]">
                   超出的章节会显示「等待 Agent 槽位」，不会占用模型请求，也不会触发模型停滞看门狗。渲染仍由云端渲染队列按并发数控制。
                 </p>
+              </Section>
+
+              <Section icon={SlidersHorizontal} title="新建项目默认配置" description="创建新项目时表单的默认值；保存后对新创建的项目生效，不影响已有项目。">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <Field label="默认分辨率">
+                    <Select
+                      value={defaults.resolution || '480P'}
+                      onChange={(v) => setDefaults({ resolution: v })}
+                      items={RESOLUTION_SELECT_ITEMS}
+                    />
+                  </Field>
+                  <Field label="默认宽高比">
+                    <Select
+                      value={defaults.aspectRatio || '16:9'}
+                      onChange={(v) => setDefaults({ aspectRatio: v })}
+                      items={RATIO_SELECT_ITEMS}
+                    />
+                  </Field>
+                </div>
+                {(defaults.resolution || '480P') === VIDEO_RESOLUTION_CUSTOM ? (
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <Field label="默认宽度（px）">
+                      <Input
+                        type="number"
+                        min={64}
+                        step={32}
+                        value={defaults.width ? String(defaults.width) : ''}
+                        onChange={(e) => setDefaults({ width: Math.max(0, Math.round(Number(e.target.value) || 0)) })}
+                        placeholder="1024"
+                      />
+                    </Field>
+                    <Field label="默认高度（px）">
+                      <Input
+                        type="number"
+                        min={64}
+                        step={32}
+                        value={defaults.height ? String(defaults.height) : ''}
+                        onChange={(e) => setDefaults({ height: Math.max(0, Math.round(Number(e.target.value) || 0)) })}
+                        placeholder="576"
+                      />
+                    </Field>
+                  </div>
+                ) : null}
+                <div className="flex flex-col gap-3 pt-1">
+                  <Switch
+                    checked={defaults.enableBgm !== false}
+                    onChange={(v) => setDefaults({ enableBgm: v })}
+                    label="自动生成背景音乐"
+                    hint="视频阶段生成纯音乐并合成到成片。"
+                  />
+                  <Switch
+                    checked={defaults.enableSubtitles !== false}
+                    onChange={(v) => setDefaults({ enableSubtitles: v })}
+                    label="自动添加字幕"
+                    hint="按「字幕与语音识别」选择的模式烧录到成片。"
+                  />
+                  <Switch
+                    checked={defaults.autoScript !== false}
+                    onChange={(v) => setDefaults({ autoScript: v })}
+                    label="自动生成剧本"
+                    hint="剧本为空时先由 Agent 写剧本再拆分镜；关闭后需先提供剧本。"
+                  />
+                </div>
               </Section>
             </>
           ) : null}
@@ -700,6 +783,12 @@ export default function SettingsPage({ onBack, publicMode = false }) {
             </Section>
           ) : null}
 
+          {active === 'subtitle' ? (
+            <Section icon={Captions} title="字幕与语音识别" description="导出成片时用 whisper 按实际音轨生成字幕">
+              <SubtitlePanel cfg={cfg} setCfg={setCfg} />
+            </Section>
+          ) : null}
+
           {active === 'agent' ? (
             <Section icon={Bot} title="Agent 运行时" description="内置 openclaude，或让本机 CLI Agent 通过 MCP 工具桥接管流水线">
               <Segmented
@@ -901,6 +990,12 @@ export default function SettingsPage({ onBack, publicMode = false }) {
             </Section>
           ) : null}
 
+          {active === 'pipeline' ? (
+            <Section icon={Workflow} title="流水线编排" badge="BETA" description="按环节指定生成时优先加载的技能，缺失时自动匹配其它技能">
+              <SkillPipelinePanel cfg={cfg} setCfg={setCfg} setSavedCfg={setSavedCfg} />
+            </Section>
+          ) : null}
+
           {dirty ? (
             <div className="sticky bottom-4 z-40 flex items-center justify-between gap-3 rounded-xl border border-[color-mix(in_srgb,var(--accent)_35%,transparent)] bg-[color-mix(in_srgb,var(--panel)_92%,var(--accent)_8%)] px-4 py-2.5 shadow-[0_20px_50px_-20px_rgba(0,0,0,.95)] backdrop-blur">
               <span className="flex items-center gap-2 text-[12px] text-[var(--fg-2)]">
@@ -923,7 +1018,7 @@ export default function SettingsPage({ onBack, publicMode = false }) {
   );
 }
 
-function Section({ icon: Icon, title, description, children }) {
+function Section({ icon: Icon, title, description, badge, children }) {
   return (
     <section className="panel flex flex-col gap-4 p-5">
       <div className="flex items-start gap-3">
@@ -931,7 +1026,14 @@ function Section({ icon: Icon, title, description, children }) {
           <Icon size={15} />
         </span>
         <div className="min-w-0">
-          <h2 className="m-0 text-[14px] font-semibold text-[var(--fg)]">{title}</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="m-0 text-[14px] font-semibold text-[var(--fg)]">{title}</h2>
+            {badge ? (
+              <span className="shrink-0 rounded-full border border-[color-mix(in_srgb,var(--accent)_40%,transparent)] bg-[color-mix(in_srgb,var(--accent)_14%,transparent)] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-[var(--accent)]">
+                {badge}
+              </span>
+            ) : null}
+          </div>
           {description ? <p className="m-0 mt-0.5 text-[11.5px] text-[var(--fg-3)]">{description}</p> : null}
         </div>
       </div>
